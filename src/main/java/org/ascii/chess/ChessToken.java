@@ -4,42 +4,36 @@ import org.ascii.chess.util.Colors;
 import org.ascii.chess.util.Text;
 
 public class ChessToken {
-    private String name;
-    private ChessPieceType chessPieceType;
-    private Piece piece;
+    private final ChessPieceType chessPieceType;
+    private PieceColor pieceColor;
     private Colors color;
+    private  int noOfMoves;
 
-
-    public String getName() {
-        return name;
+    public int getNoOfMoves() {
+        return noOfMoves;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNoOfMoves(int noOfMoves) {
+        this.noOfMoves = noOfMoves;
     }
-
 
     public ChessPieceType getChessPieceType() {
         return chessPieceType;
     }
 
-    public void setChessPieceType(ChessPieceType chessPieceType) {
-        this.chessPieceType = chessPieceType;
+
+    public PieceColor getPiece() {
+        return pieceColor;
     }
 
-    public Piece getPiece() {
-        return piece;
+    public void setPiece(PieceColor pieceColor) {
+        this.pieceColor = pieceColor;
     }
 
-    public void setPiece(Piece piece) {
-        this.piece = piece;
-    }
-
-    public ChessToken(ChessPieceType chessPieceType,
-                      Colors color,  Piece piece) {
+    public ChessToken(ChessPieceType chessPieceType, Colors color, PieceColor pieceColor) {
         this.chessPieceType = chessPieceType;
         this.color = color;
-        this.piece = piece;
+        this.pieceColor = pieceColor;
     }
 
     public Colors getColor() {
@@ -51,6 +45,6 @@ public class ChessToken {
     }
 
     public String getText() {
-        return " "+Text.getColorText(this.chessPieceType.getText(),color)+" ";
+        return " " + Text.getColorText(this.chessPieceType.getText(), color) + " ";
     }
 }

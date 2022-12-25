@@ -14,7 +14,8 @@ public class Display {
             throw new RuntimeException(e);
         }
     }
-    protected void clear_display(){
+    protected void clear_display()
+    {
         System.out.println("\033[H\033[J");
     }
 }

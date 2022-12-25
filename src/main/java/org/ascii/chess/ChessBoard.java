@@ -75,19 +75,48 @@ public class ChessBoard extends Cursor {
     }
 
     private String getText(int i, int j, String text) {
-        if (isCursorPoint(i, j))
+        var z=isSelectedBox(i, j);
+        if (z.condition()) {
+            //var z = chessBoard[truncateY(i)][truncateX(j)].getColors();
+            return Text.getColorText(text, chessBoard[z.y][z.x].getColors());
+        } else if (isCursorPoint(i, j))
             return Text.getColorText(text, getColors());
-        else if (isSelectedBox(i, j)) {
-            return Text.getColorText(text, Colors.BLUE);
-        } else return text;
+        else return text;
     }
 
-    private boolean isSelectedBox(int i, int j) {
+    private Val isSelectedBox(int i, int j) {
         int x = j / 2;
         int y = i / 2;
         x = (x == 8) ? x - 1 : x;
         y = (y == 8) ? y - 1 : y;
-        return chessBoard[y][x].isSelected() || chessBoard[y == 0 ? y : y - 1][x == 0 ? x : x - 1].isSelected();
+        if (chessBoard[y][x].isSelected()) {
+            return new Val(true, x, y);
+        } else {
+            int i1 = (j != 0 && j % 2 == 0) ? j / 2 - 1 : j / 2;
+            if (chessBoard[y][i1].isSelected()) {
+                return new Val(true, i1, y);
+            } else {
+                int i2 = (i != 0 && i % 2 == 0) ? i / 2 - 1 : i / 2;
+                if (chessBoard[i2][x].isSelected())
+                    return new Val(chessBoard[i2][x].isSelected(), x, i2);
+                return new Val(chessBoard[i2][i1].isSelected(), i1, i2);
+            }
+        }
+
+    }
+
+    private record Val(boolean condition, int x, int y) {
+    }
+
+    private int truncateX(int x) {
+        x = x / 2;
+        return (x != 8) ? x : x - 1;
+
+    }
+
+    private int truncateY(int y) {
+        y = y / 2;
+        return (y != 8) ? y : y - 1;
     }
 
     private boolean isCursorPoint(int i, int j) {
