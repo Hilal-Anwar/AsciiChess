@@ -1,6 +1,5 @@
 package org.ascii.chess;
 
-import org.ascii.chess.util.Colors;
 import org.ascii.chess.util.Cursor;
 import org.ascii.chess.util.Text;
 
@@ -26,7 +25,7 @@ public class ChessBoard extends Cursor {
         super(cursor.getColumn(), cursor.getRow(), cursor.getColors());
     }
 
-    public void draw() {
+    public void draw(String message) {
         String[] a = {"╤", "═══", "╔", "╗"};
         String[] b = {"│", "   ", "║",};
         String[] c = {"┼", "───", "╟", "╢"};
@@ -71,16 +70,16 @@ public class ChessBoard extends Cursor {
             chess.append("\n");
 
         }
-        System.out.println(chess);
+        System.out.println(chess.append('\n').append(message));
     }
 
     private String getText(int i, int j, String text) {
         var z=isSelectedBox(i, j);
-        if (z.condition()) {
-            //var z = chessBoard[truncateY(i)][truncateX(j)].getColors();
-            return Text.getColorText(text, chessBoard[z.y][z.x].getColors());
-        } else if (isCursorPoint(i, j))
+        if (isCursorPoint(i, j))
             return Text.getColorText(text, getColors());
+        else if (z.condition()) {
+            return Text.getColorText(text, chessBoard[z.y][z.x].getColors());
+        }
         else return text;
     }
 
@@ -108,16 +107,6 @@ public class ChessBoard extends Cursor {
     private record Val(boolean condition, int x, int y) {
     }
 
-    private int truncateX(int x) {
-        x = x / 2;
-        return (x != 8) ? x : x - 1;
-
-    }
-
-    private int truncateY(int y) {
-        y = y / 2;
-        return (y != 8) ? y : y - 1;
-    }
 
     private boolean isCursorPoint(int i, int j) {
         int size = 2;

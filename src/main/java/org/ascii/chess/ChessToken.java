@@ -1,11 +1,12 @@
 package org.ascii.chess;
 
 import org.ascii.chess.util.Colors;
+import org.ascii.chess.util.Players;
 import org.ascii.chess.util.Text;
 
 public class ChessToken {
     private final ChessPieceType chessPieceType;
-    private PieceColor pieceColor;
+    private Players players;
     private Colors color;
     private  int noOfMoves;
 
@@ -22,18 +23,18 @@ public class ChessToken {
     }
 
 
-    public PieceColor getPiece() {
-        return pieceColor;
+    public Players getPiece() {
+        return players;
     }
 
-    public void setPiece(PieceColor pieceColor) {
-        this.pieceColor = pieceColor;
+    public void setPiece(Players players) {
+        this.players = players;
     }
 
-    public ChessToken(ChessPieceType chessPieceType, Colors color, PieceColor pieceColor) {
+    public ChessToken(ChessPieceType chessPieceType, Colors color, Players players) {
         this.chessPieceType = chessPieceType;
         this.color = color;
-        this.pieceColor = pieceColor;
+        this.players = players;
     }
 
     public Colors getColor() {
