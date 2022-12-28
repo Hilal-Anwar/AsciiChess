@@ -9,7 +9,8 @@ public enum Colors {
     CYAN("\033[0;36m"),  // CYAN
     WHITE("\033[0;97m"),  // WHITE
     CYAN_BRIGHT("\033[0;96m"),
-    MAGENTA("\u001B[35m");
+    MAGENTA("\u001B[35m"),
+    ORANGE("\u001b[38;5;208m");
     private final String color;
 
     Colors(String color) {

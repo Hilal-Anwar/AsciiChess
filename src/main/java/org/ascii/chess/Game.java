@@ -5,28 +5,38 @@ import org.ascii.chess.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 public class Game extends Display implements Movements {
+    /**
+     * @author Hilal Anwar on 01-12-2022
+     * @project AsciiChess
+     */
     private final ChessBoard chessBoard = new ChessBoard(new Cursor(4, 6, Colors.MAGENTA));
     private ChessBox[][] board;
     private ArrayList<int[]> possible_position = new ArrayList<>();
     private int[] selected_box;
-    private Players turn = Players.WHITE;
+    private Players turn = Players.BLACK;
     private String message = "";
+    private boolean isKingChecked = false;
+    private boolean isCastlingValid_Black = true;
+    private boolean isCastlingValid_White = true;
 
     public Game() {
         init();
     }
-    private boolean enPassant=false;
-    private boolean castling=false;
+
+    private int[] enPassant = {};
+    private int[] castling = {};
+
     private void init() {
         Colors c_w = Colors.CYAN_BRIGHT;
         Colors c_b = Colors.YELLOW;
         board = chessBoard.getChessBoard();
         //all the black pieces
         board[0][0] = new ChessBox(new ChessToken(ChessPieceType.ROOK, c_b, Players.BLACK), false);
-        board[0][1] = new ChessBox(new ChessToken(ChessPieceType.KNIGHT, c_b, Players.BLACK), false);
-        board[0][2] = new ChessBox(new ChessToken(ChessPieceType.BISHOP, c_b, Players.BLACK), false);
-        board[0][3] = new ChessBox(new ChessToken(ChessPieceType.QUEEN, c_b, Players.BLACK), false);
+        board[0][1] = new ChessBox(/*new ChessToken(*ChessPieceType.KNIGHT, c_b, Players.BLACK)*/null, false);
+        board[0][2] = new ChessBox(/*new ChessToken(ChessPieceType.BISHOP, c_b, Players.BLACK)*/null, false);
+        board[0][3] = new ChessBox(/*new ChessToken(ChessPieceType.QUEEN, c_b, Players.BLACK)*/null, false);
         board[0][4] = new ChessBox(new ChessToken(ChessPieceType.KING, c_b, Players.BLACK), false);
         board[0][5] = new ChessBox(new ChessToken(ChessPieceType.BISHOP, c_b, Players.BLACK), false);
         board[0][6] = new ChessBox(new ChessToken(ChessPieceType.KNIGHT, c_b, Players.BLACK), false);
@@ -129,14 +139,48 @@ public class Game extends Display implements Movements {
                             board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN))
                         board[y][x] = new ChessBox(new ChessToken(ChessPieceType.QUEEN,
                                 Colors.MAGENTA, Players.BLACK), false);
-                    else board[y][x] = board[_y][_x];
+                    else if (isEnPassant(y, 3, _y, _x, x, y)) {
+                        enPassant = new int[]{x, y - 1};
+                        board[y][x] = board[_y][_x];
+                    } else if (isEnPassant(y, 4, _y, _x, x, y)) {
+                        enPassant = new int[]{x, y + 1};
+                        board[y][x] = board[_y][_x];
+                    } else if (castling.length > 0 && castling[0] == x && castling[1] == y) {
+                        var pi = board[_y][_x].getChessToken().getPiece();
+                        if (pi.equals(Players.BLACK)) {
+                            board[y][x] = board[_y][_x];
+                            board[y][x + 1] = board[0][0];
+                            board[0][0] = new ChessBox(null, false);
+                            isCastlingValid_Black = false;
+                        } else if (pi.equals(Players.WHITE)) {
+                            board[y][x] = board[_y][_x];
+                            board[y][x - 1] = board[7][7];
+                            board[7][7] = new ChessBox(null, false);
+                            isCastlingValid_White = false;
+                        }
+                        castling = new int[]{};
+                    } else if (enPassant.length > 0 && enPassant[0] == x && enPassant[1] == y) {
+                        board[enPassant[1]][enPassant[0]] = board[_y][_x];
+                        if (board[_y][_x].getChessToken().getPiece().equals(Players.WHITE))
+                            board[_y][_x - 1] = new ChessBox(null, false);
+                        else if (board[_y][_x].getChessToken().getPiece().equals(Players.BLACK)) {
+                            board[_y][_x + 1] = new ChessBox(null, false);
+                        }
+                        enPassant = new int[]{};
+
+                    } else board[y][x] = board[_y][_x];
                     board[_y][_x] = new ChessBox(null, false);
-                    turn = turn.equals(Players.WHITE) ? Players.BLACK : Players.WHITE;
+                    //turn = turn.equals(Players.WHITE) ? Players.BLACK : Players.WHITE;
                 }
                 board[selected_box[1]][selected_box[0]].setSelected(false, Colors.WHITE);
                 for (int[] sl : possible_position) {
                     board[sl[1]][sl[0]].setSelected(false, Colors.WHITE);
-
+                }
+                if (enPassant.length > 0) {
+                    board[enPassant[1]][enPassant[0]].setSelected(false, Colors.WHITE);
+                }
+                if (castling.length > 0) {
+                    board[castling[1]][castling[0]].setSelected(false, Colors.WHITE);
                 }
                 selected_box = null;
             }
@@ -149,9 +193,29 @@ public class Game extends Display implements Movements {
 
     }
 
+    private boolean isEnPassant(int m, int n, int _y, int _x, int x, int y) {
+        Players co = board[_y][_x].getChessToken().getPiece();
+        if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
+                board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
+                board[y][x - 1].getChessToken() != null && !board[y][x - 1].getChessToken().getPiece().equals(co)) {
+            return true;
+
+        } else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
+                board[_y][_x].getChessToken().getPiece().equals(Players.BLACK) &&
+                board[y][x + 1].getChessToken() != null && !board[y][x + 1].getChessToken().getPiece().equals(co))
+            return true;
+        return false;
+    }
+
     private boolean ifAnyMatching(int x, int y) {
         var z = new int[]{x, y};
-        return possible_position.stream().anyMatch(t -> Arrays.equals(t, z));
+        for (int[] t : possible_position) {
+            if (Arrays.equals(t, z)) {
+                return true;
+            }
+        }
+        return (enPassant.length > 0 || castling.length > 0) &&
+                (Arrays.equals(z, enPassant) || (Arrays.equals(z, castling)));
     }
 
     @Override
@@ -187,9 +251,7 @@ public class Game extends Display implements Movements {
     }
 
     private boolean isValidPoint(int x, int y, Players color) {
-        return (x >= 0 && x < 8 && y >= 0 && y < 8 && board[y][x].getChessToken() == null) /*||
-                (x >= 0 && x < 8 && y >= 0 && y < 8 && board[y][x].getChessToken() != null &&
-                        !color.equals(board[y][x].getChessToken().getPiece()))*/;
+        return (x >= 0 && x < 8 && y >= 0 && y < 8 && board[y][x].getChessToken() == null);
     }
 
     private boolean isValidPointFilledPosition(int x, int y, Players color) {
@@ -246,6 +308,37 @@ public class Game extends Display implements Movements {
         return list;
     }
 
+    private boolean isValidCastling(int x, int y, Players players, String direction) {
+        if (players.equals(Players.BLACK)) {
+            if (direction.equals("left"))
+                return board[y][x - 1].getChessToken() == null &&
+                        board[y][x - 2].getChessToken() == null &&
+                        board[y][x - 3].getChessToken() == null &&
+                        board[0][0].getChessToken().getChessPieceType().equals(ChessPieceType.ROOK) &&
+                        !isKingChecked && board[0][0].getChessToken().getPiece().equals(Players.BLACK);
+            if (direction.equals("right")) {
+                return board[y][x + 1].getChessToken() == null &&
+                        board[y][x + 2].getChessToken() == null &&
+                        board[0][7].getChessToken().getChessPieceType().equals(ChessPieceType.ROOK) &&
+                        !isKingChecked && board[0][7].getChessToken().getPiece().equals(Players.BLACK);
+            }
+        } else if (players.equals(Players.WHITE))
+            if (direction.equals("left"))
+                return board[y][x - 1].getChessToken() == null &&
+                        board[y][x - 2].getChessToken() == null &&
+                        board[y][x - 3].getChessToken() == null &&
+                        board[7][0].getChessToken().getChessPieceType().equals(ChessPieceType.ROOK) &&
+                        !isKingChecked && board[7][0].getChessToken().getPiece().equals(Players.WHITE);
+            if (direction.equals("right")) {
+                return board[y][x + 1].getChessToken() == null &&
+                        board[y][x + 2].getChessToken() == null &&
+                        board[7][7].getChessToken().getChessPieceType().equals(ChessPieceType.ROOK) &&
+                        !isKingChecked && board[7][7].getChessToken().getPiece().equals(Players.WHITE);
+            }
+        return false;
+
+    }
+
     @Override
     public ArrayList<int[]> queen_movement(int x, int y, Players color) {
         int degree_f = 8;
@@ -292,6 +385,21 @@ public class Game extends Display implements Movements {
                 list.add(movement[i]);
             }
         }
+        if (isCastlingValid_Black || isCastlingValid_White) {
+            if (y == 0 && isCastlingValid_Black && color.equals(Players.BLACK) && isValidCastling(x, y, color, "left")) {
+                castling = new int[]{x - 2, y};
+                board[y][x - 2].setSelected(true, Colors.ORANGE);
+            } if (y == 0 && isCastlingValid_Black && color.equals(Players.BLACK) && isValidCastling(x, y, color, "right")) {
+                castling = new int[]{x + 2, y};
+                board[y][x + 2].setSelected(true, Colors.ORANGE);
+            } if (y == 7 && isCastlingValid_White && color.equals(Players.WHITE) && isValidCastling(x, y, color, "left")) {
+                castling = new int[]{x - 2, y};
+                board[y][x - 2].setSelected(true, Colors.ORANGE);
+            }  if (y == 7 && isCastlingValid_White && color.equals(Players.WHITE) && isValidCastling(x, y, color, "right")) {
+                castling = new int[]{x + 2, y};
+                board[y][x + 2].setSelected(true, Colors.ORANGE);
+            }
+        }
         return list;
     }
 
@@ -327,11 +435,9 @@ public class Game extends Display implements Movements {
                     }
                 }
             }
-        }
-        if (y == 3 ) {
-
-        }
-        else if ( y == 4){
+            if (enPassant.length > 0 && (y == 3 || y == 4)) {
+                board[enPassant[1]][enPassant[0]].setSelected(true, Colors.ORANGE);
+            }
 
         }
         return list;
