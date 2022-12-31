@@ -209,13 +209,23 @@ public class Game extends Display implements Movements {
     private boolean isEnPassant(int m, int n, int _y, int _x, int x, int y) {
         Players co = board[_y][_x].getChessToken().getPiece();
         if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
-                board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
+                board[_y][_x].getChessToken().getPiece().equals(Players.BLACK) &&
                 board[y][x - 1].getChessToken() != null && !board[y][x - 1].getChessToken().getPiece().equals(co)) {
             return true;
 
-        } else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
+        }
+        else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
                 board[_y][_x].getChessToken().getPiece().equals(Players.BLACK) &&
+                board[y][x + 1].getChessToken() != null && !board[y][x + 1].getChessToken().getPiece().equals(co)) {
+            return true;
+        }
+        else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
+                board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
                 board[y][x + 1].getChessToken() != null && !board[y][x + 1].getChessToken().getPiece().equals(co))
+            return true;
+        else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
+                board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
+                board[y][x - 1].getChessToken() != null && !board[y][x - 1].getChessToken().getPiece().equals(co))
             return true;
         return false;
     }
