@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="Castling and EnPassant Implemented">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/Game.java" afterDir="false" />
-    </list>
+    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="EnPassant Implemented(all bug fixed)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -168,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672252650099</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="EnPassant Implemented(all bug fixed)">
+      <created>1672485743623</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1672485743623</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -176,6 +176,7 @@
     <MESSAGE value="All the chess pieces movement implemented" />
     <MESSAGE value="Two player option was added and different colors for different moves was added." />
     <MESSAGE value="Castling and EnPassant Implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="Castling and EnPassant Implemented" />
+    <MESSAGE value="EnPassant Implemented(all bug fixed)" />
+    <option name="LAST_COMMIT_MESSAGE" value="EnPassant Implemented(all bug fixed)" />
   </component>
 </project>
