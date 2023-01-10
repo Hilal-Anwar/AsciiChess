@@ -1,6 +1,6 @@
 package org.ascii.chess.util;
 
-import org.ascii.chess.ChessToken;
+import org.ascii.chess.pieces.ChessToken;
 
 import java.util.ArrayList;
 

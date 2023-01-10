@@ -1,6 +1,6 @@
 package org.ascii.chess.util;
 
-import org.ascii.chess.ChessBox;
+import org.ascii.chess.board.ChessBox;
 
 public enum Players {
     BLACK,WHITE;

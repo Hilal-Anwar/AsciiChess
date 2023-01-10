@@ -1,4 +1,4 @@
-package org.ascii.chess;
+package org.ascii.chess.pieces;
 
 public enum ChessPieceType {
     KING("♔"), ROOK("♖"), BISHOP("♗"), QUEEN("♕"),

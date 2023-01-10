@@ -1,5 +1,6 @@
-package org.ascii.chess;
+package org.ascii.chess.board;
 
+import org.ascii.chess.pieces.ChessToken;
 import org.ascii.chess.util.Colors;
 
 public class ChessBox {
@@ -26,6 +27,15 @@ public class ChessBox {
     public void setSelected(boolean selected,Colors colors) {
         this.selected = selected;
         this.colors=colors;
+    }
+
+    @Override
+    public String toString() {
+        return "ChessBox{" +
+                "chessToken=" + chessToken +
+                ", selected=" + selected +
+                ", colors=" + colors +
+                '}';
     }
 
     public Colors getColors() {

@@ -1,4 +1,4 @@
-package org.ascii.chess;
+package org.ascii.chess.pieces;
 
 import org.ascii.chess.util.Colors;
 import org.ascii.chess.util.Players;

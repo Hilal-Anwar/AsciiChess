@@ -1,7 +1,10 @@
-package org.ascii.chess;
+package org.ascii.chess.board;
 
+import org.ascii.chess.pieces.ChessPieceType;
+import org.ascii.chess.pieces.ChessToken;
 import org.ascii.chess.util.*;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,6 +21,9 @@ public class Game extends Display implements Movements {
     private Players turn = Players.WHITE;
     private String message = "";
     private boolean isKingChecked = false;
+    private ArrayList<int[]> path_to_check=new ArrayList<>();
+    private int []black_king={4,0};
+    private int []white_king={4,7};
     private boolean isCastlingValid_Black = true;
     private boolean isCastlingValid_White = true;
 
@@ -26,6 +32,7 @@ public class Game extends Display implements Movements {
     }
 
     private int[] enPassant = {};
+    private final ArrayDeque<MovementRecord> memory=new ArrayDeque<>();
     private ArrayList<int[]> castling = new ArrayList<>(2);
 
     private void init() {
@@ -106,15 +113,7 @@ public class Game extends Display implements Movements {
         if (turn.isEqual(chess_box) || selected_box != null) {
             if (chess_box.getChessToken() != null && selected_box == null) {
                 var chess_piece_type = chess_box.getChessToken().getChessPieceType();
-                possible_position = switch (chess_piece_type) {
-                    case KING -> king_movement(x, y, chess_box.getChessToken().getPiece());
-                    case QUEEN -> queen_movement(x, y, chess_box.getChessToken().getPiece());
-                    case BISHOP -> bishop_movement(x, y, chess_box.getChessToken().getPiece());
-                    case ROOK -> rook_movement(x, y, chess_box.getChessToken().getPiece());
-                    case KNIGHT -> knight_movement(x, y, chess_box.getChessToken().getPiece());
-                    case PAWN -> pawn_movement(x, y, chess_box.getChessToken(),
-                            chess_box.getChessToken().getPiece());
-                };
+                getPossiblePosition(x, y, chess_box, chess_piece_type);
                 if (possible_position.size() != 0) {
                     for (int[] sl : possible_position) {
                         board[sl[1]][sl[0]].
@@ -133,55 +132,76 @@ public class Game extends Display implements Movements {
                     int _y = selected_box[1];
                     if (y == 0 && board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
                             board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN))
-                        board[y][x] = new ChessBox(new ChessToken(ChessPieceType.QUEEN,
-                                Colors.CYAN_BRIGHT, Players.WHITE), false);
+                        //board[y][x] = new ChessBox(new ChessToken(ChessPieceType.QUEEN,
+                        //Colors.CYAN_BRIGHT, Players.WHITE), false);
+                        move_the_piece_to(x, y, new ChessBox(new ChessToken(ChessPieceType.QUEEN,
+                                Colors.CYAN_BRIGHT, Players.WHITE), false));
                     else if (y == 7 && board[_y][_x].getChessToken().getPiece().equals(Players.BLACK) &&
                             board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN))
-                        board[y][x] = new ChessBox(new ChessToken(ChessPieceType.QUEEN,
-                                Colors.MAGENTA, Players.BLACK), false);
+                        /*board[y][x] = new ChessBox(new ChessToken(ChessPieceType.QUEEN,
+                                Colors.MAGENTA, Players.BLACK), false);*/
+                        move_the_piece_to(x, y, new ChessBox(new ChessToken(ChessPieceType.QUEEN,
+                                Colors.MAGENTA, Players.BLACK), false));
                     else if (isEnPassant(y, 3, _y, _x, x, y)) {
                         enPassant = new int[]{x, y - 1};
-                        board[y][x] = board[_y][_x];
+                        //board[y][x] = board[_y][_x];
+                        move_the_piece_to(x, y, board[_y][_x]);
                     } else if (isEnPassant(y, 4, _y, _x, x, y)) {
                         enPassant = new int[]{x, y + 1};
-                        board[y][x] = board[_y][_x];
+                        //board[y][x] = board[_y][_x];
+                        move_the_piece_to(x, y, board[_y][_x]);
                     } else if (((castling.size() > 0 && castling.get(0)[0] == x && castling.get(0)[1] == y) ||
                             (castling.size() > 1 && castling.get(1)[0] == x && castling.get(1)[1] == y))) {
                         var pi = board[_y][_x].getChessToken().getPiece();
                         if (pi.equals(Players.BLACK) && isCastlingValid_Black) {
-                            board[y][x] = board[_y][_x];
+                            //board[y][x] = board[_y][_x];
+                            move_the_piece_to(x, y, board[_y][_x]);
                             if (x < _x) {
-                                board[y][x + 1] = board[0][0];
-                                board[0][0] = new ChessBox(null, false);
+                                //board[y][x + 1] = board[0][0];
+                                move_the_piece_to(x + 1, y, board[0][0]);
+                                move_the_piece_to(0, 0, new ChessBox(null, false));
+                                //board[0][0] = new ChessBox(null, false);
                             } else if (x > _x) {
-                                board[y][x - 1] = board[0][7];
-                                board[0][7] = new ChessBox(null, false);
+                                //board[y][x - 1] = board[0][7];
+                                move_the_piece_to(x - 1, y, board[0][7]);
+                                //board[0][7] = new ChessBox(null, false);
+                                move_the_piece_to(7, 0, new ChessBox(null, false));
                             }
                             isCastlingValid_Black = false;
-                            castling=new ArrayList<>();
+                            castling = new ArrayList<>();
                         } else if (pi.equals(Players.WHITE) && isCastlingValid_White) {
-                            board[y][x] = board[_y][_x];
+                            //board[y][x] = board[_y][_x];
+                            move_the_piece_to(x, y, board[_y][_x]);
                             if (x < _x) {
-                                board[y][x + 1] = board[7][0];
-                                board[7][0] = new ChessBox(null, false);
+                                //board[y][x + 1] = board[7][0];
+                                move_the_piece_to(x, y, board[7][0]);
+                                //board[7][0] = new ChessBox(null, false);
+                                move_the_piece_to(0, 7, new ChessBox(null, false));
                             } else if (x > _x) {
-                                board[y][x - 1] = board[7][7];
-                                board[7][7] = new ChessBox(null, false);
+                                //board[y][x - 1] = board[7][7];
+                                move_the_piece_to(x - 1, y, board[7][7]);
+                                //board[7][7] = new ChessBox(null, false);
+                                move_the_piece_to(7, 7, new ChessBox(null, false));
                             }
                             isCastlingValid_White = false;
-                            castling=new ArrayList<>();
+                            castling = new ArrayList<>();
                         }
                     } else if (enPassant.length > 0 && enPassant[0] == x && enPassant[1] == y) {
-                        board[enPassant[1]][enPassant[0]] = board[_y][_x];
+                        //board[enPassant[1]][enPassant[0]] = board[_y][_x];
+                        move_the_piece_to(enPassant[0], enPassant[1], board[_y][_x]);
                         if (board[_y][_x].getChessToken().getPiece().equals(Players.WHITE))
-                            board[_y][_x - 1] = new ChessBox(null, false);
+                            //board[_y][_x - 1] = new ChessBox(null, false);
+                            move_the_piece_to(_x - 1, _y, new ChessBox(null, false));
                         else if (board[_y][_x].getChessToken().getPiece().equals(Players.BLACK)) {
-                            board[_y][_x + 1] = new ChessBox(null, false);
+                            //board[_y][_x + 1] = new ChessBox(null, false);
+                            move_the_piece_to(_x + 1, _y, new ChessBox(null, false));
                         }
                         enPassant = new int[]{};
 
-                    } else board[y][x] = board[_y][_x];
-                    board[_y][_x] = new ChessBox(null, false);
+                    } else //board[y][x] = board[_y][_x];
+                        move_the_piece_to(x, y, board[_y][_x]);
+                    //board[_y][_x] = new ChessBox(null, false);
+                    move_the_piece_to(_x, _y, new ChessBox(null, false));
                     turn = turn.equals(Players.WHITE) ? Players.BLACK : Players.WHITE;
                 }
                 board[selected_box[1]][selected_box[0]].setSelected(false, Colors.WHITE);
@@ -206,6 +226,18 @@ public class Game extends Display implements Movements {
 
     }
 
+    private void getPossiblePosition(int x, int y, ChessBox chess_box, ChessPieceType chess_piece_type) {
+        possible_position = switch (chess_piece_type) {
+            case KING -> king_movement(x, y, chess_box.getChessToken().getPiece());
+            case QUEEN -> queen_movement(x, y, chess_box.getChessToken().getPiece());
+            case BISHOP -> bishop_movement(x, y, chess_box.getChessToken().getPiece());
+            case ROOK -> rook_movement(x, y, chess_box.getChessToken().getPiece());
+            case KNIGHT -> knight_movement(x, y, chess_box.getChessToken().getPiece());
+            case PAWN -> pawn_movement(x, y, chess_box.getChessToken(),
+                    chess_box.getChessToken().getPiece());
+        };
+    }
+
     private boolean isEnPassant(int m, int n, int _y, int _x, int x, int y) {
         Players co = board[_y][_x].getChessToken().getPiece();
         if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
@@ -213,13 +245,11 @@ public class Game extends Display implements Movements {
                 board[y][x - 1].getChessToken() != null && !board[y][x - 1].getChessToken().getPiece().equals(co)) {
             return true;
 
-        }
-        else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
+        } else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
                 board[_y][_x].getChessToken().getPiece().equals(Players.BLACK) &&
                 board[y][x + 1].getChessToken() != null && !board[y][x + 1].getChessToken().getPiece().equals(co)) {
             return true;
-        }
-        else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
+        } else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
                 board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
                 board[y][x + 1].getChessToken() != null && !board[y][x + 1].getChessToken().getPiece().equals(co))
             return true;
@@ -471,5 +501,17 @@ public class Game extends Display implements Movements {
         }
         return list;
     }
+
+    private void move_the_piece_to(int x, int y, ChessBox chessBox) {
+        chessBox.setSelected(false, Colors.WHITE);
+        board[y][x] = chessBox;
+
+    }
+
+
+    private ArrayList<int[]> check_king_checking(int x,int y,Players players){
+        return null;
+    }
+
 }
 

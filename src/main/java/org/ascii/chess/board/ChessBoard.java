@@ -1,4 +1,4 @@
-package org.ascii.chess;
+package org.ascii.chess.board;
 
 import org.ascii.chess.util.Cursor;
 import org.ascii.chess.util.Text;

@@ -8,14 +8,16 @@ public class Test {
             for (int j = 0; j < 16; j++) {
                 code = "" + (i * 16 + j);
                 st = "\u001b[38;5;" + code + "m";
-                System.out.print(adjust_space(st + k + "\u001b[0m" + "  ",code));
+                st = st + "██" + "\u001b[0m" /*+ "  "*/;
+                //String s = adjustSpace(st, code);
+                System.out.print(st);
                 k++;
             }
             System.out.println();
         }
     }
 
-    private static String adjust_space(String s,String s1) {
-        return (s+" ".repeat(3-s1.length()));
+    static String adjustSpace(String s, String s1) {
+        return (s + " ".repeat(3 - s1.length()));
     }
 }
