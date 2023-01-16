@@ -7,6 +7,7 @@ import org.ascii.chess.util.*;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 
 
 public class Game extends Display implements Movements {
@@ -24,6 +25,8 @@ public class Game extends Display implements Movements {
     private ArrayList<int[]> path_to_check=new ArrayList<>();
     private int []black_king={4,0};
     private int []white_king={4,7};
+    private ArrayList<Point> special_points=new ArrayList<>();
+
     private boolean isCastlingValid_Black = true;
     private boolean isCastlingValid_White = true;
 
@@ -34,6 +37,7 @@ public class Game extends Display implements Movements {
     private int[] enPassant = {};
     private final ArrayDeque<MovementRecord> memory=new ArrayDeque<>();
     private ArrayList<int[]> castling = new ArrayList<>(2);
+    private LinkedHashMap<String,Path> path_to_king=new LinkedHashMap<>();
 
     private void init() {
         Colors c_w = Colors.CYAN_BRIGHT;
@@ -510,6 +514,7 @@ public class Game extends Display implements Movements {
 
 
     private ArrayList<int[]> check_king_checking(int x,int y,Players players){
+
         return null;
     }
 
