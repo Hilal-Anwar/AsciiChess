@@ -6,5 +6,5 @@ import java.util.ArrayList;
  * @author hilal on 16-01-2023
  * @project AsciiChess
  */
-public record Path(Directions directions, ArrayList<Point> points) {
+public record Path(boolean isDanger,Point guardPoint,ArrayList<Point> points) {
 }

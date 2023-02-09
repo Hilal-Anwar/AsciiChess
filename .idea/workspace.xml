@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="EnPassant Implemented(all bug fixed)" />
+    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="Added Point and Directions">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/ai/KingsMovement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/MovementRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/MovementRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Movements.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Movements.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Path.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Path.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Point.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +29,7 @@
         <option value="module-info" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -34,6 +43,9 @@
       </MavenImportingSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2IVXfYNJDzfyFUXwLDXY2hxeioA" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -45,14 +57,18 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/hilal/IdeaProjects/JCEngine&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;fileTemplates&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/hilal/Chess&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\hilal\IdeaProjects\AsciiChess\src\main\java\org\ascii\chess" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hilal\IdeaProjects\AsciiChess\src\main\java\org\ascii\chess\ai" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
@@ -62,33 +78,7 @@
       <recent name="org.ascii.chess" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.org.ascii.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.ascii.chess.Main" />
-      <module name="AsciiChess" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value=".*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.ascii.chess.util.Test" />
-      <module name="AsciiChess" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.ascii.chess.util.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration name="org.ascii.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.ascii.Main" />
       <module name="AsciiChess" />
@@ -105,8 +95,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.org.ascii.Main" />
-        <item itemvalue="Application.Test" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -168,8 +156,47 @@
       <option name="project" value="LOCAL" />
       <updated>1672485743623</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="EnPassant Implemented(all bug fixed)">
+      <created>1672485794795</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1672485794795</updated>
+    </task>
+    <task id="LOCAL-00009" summary="EnPassant Implemented(all bug fixed)">
+      <created>1672486019871</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1672486019871</updated>
+    </task>
+    <task id="LOCAL-00010" summary="MVC implemented">
+      <created>1673309878779</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1673309878779</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Added Point and Directions">
+      <created>1673836611718</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1673836611718</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial chess board layout set with a cursor that can move." />
@@ -177,6 +204,12 @@
     <MESSAGE value="Two player option was added and different colors for different moves was added." />
     <MESSAGE value="Castling and EnPassant Implemented" />
     <MESSAGE value="EnPassant Implemented(all bug fixed)" />
-    <option name="LAST_COMMIT_MESSAGE" value="EnPassant Implemented(all bug fixed)" />
+    <MESSAGE value="MVC implemented" />
+    <MESSAGE value="Added Point and Directions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Point and Directions" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

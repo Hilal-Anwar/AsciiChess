@@ -7,8 +7,8 @@ import org.ascii.chess.pieces.ChessToken;
  * @project AsciiChess
  */
 public record MovementRecord(int initialX,
-                      int initialY,
-                      int finalX, int finalY,
-                      ChessToken previous_token,
-                      ChessToken given_token) {
+                             int initialY,
+                             int finalX, int finalY,
+                             ChessToken previous_token,
+                             ChessToken given_token) {
 }
