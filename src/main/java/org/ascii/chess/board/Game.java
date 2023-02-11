@@ -6,6 +6,7 @@ import org.ascii.chess.util.*;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 public class Game extends Display implements Movements {
@@ -21,9 +22,9 @@ public class Game extends Display implements Movements {
     private String message = "";
     private boolean isKingChecked = false;
     private ArrayList<Point> path_to_check = new ArrayList<>();
-    private Point black_king = new Point(4, 0);
-    private Point white_king = new Point(4, 7);
-    private ArrayList<Point> guard_tokens = new ArrayList<>();
+    private final Point black_king = new Point(4, 0);
+    private final Point white_king = new Point(4, 7);
+    private final HashSet<Point> guard_tokens = new HashSet<>();
 
     private boolean isCastlingValid_Black = true;
     private boolean isCastlingValid_White = true;
@@ -112,7 +113,9 @@ public class Game extends Display implements Movements {
         int x = chessBoard.getColumn();
         int y = chessBoard.getRow();
         var chess_box = board[y][x];
-        if (turn.isEqual(chess_box) || selected_box != null) {
+        Point pr=new Point(x,y);
+        if ((turn.isEqual(chess_box) || selected_box != null) && !guard_tokens.contains(pr))
+        {
             if (chess_box.getChessToken() != null && selected_box == null) {
                 var chess_piece_type = chess_box.getChessToken().getChessPieceType();
                 getPossiblePosition(x, y, chess_box, chess_piece_type);
@@ -196,7 +199,11 @@ public class Game extends Display implements Movements {
                 selected_box = null;
             }
             message = "";
-        } else if (chess_box.getChessToken() != null) {
+        }
+        else if (guard_tokens.contains(pr)){
+            message="This is guard piece to your king.";
+        }
+        else if (chess_box.getChessToken() != null) {
             message = "Invalid move its," + turn.name() + " turn " +
                     chess_box.getChessToken().getPiece().name() + " cannot be moved";
         }
@@ -237,11 +244,9 @@ public class Game extends Display implements Movements {
                 board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
                 board[y][x + 1].getChessToken() != null && !board[y][x + 1].getChessToken().getPiece().equals(co))
             return true;
-        else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
-                board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
-                board[y][x - 1].getChessToken() != null && !board[y][x - 1].getChessToken().getPiece().equals(co))
-            return true;
-        return false;
+        else return m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
+                    board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
+                    board[y][x - 1].getChessToken() != null && !board[y][x - 1].getChessToken().getPiece().equals(co);
     }
 
     private boolean ifAnyMatching(int x, int y) {
@@ -511,10 +516,10 @@ public class Game extends Display implements Movements {
         board[y][x] = chessBox;
         dSelect(possible_position);
         if (chessBox.getChessToken() != null) {
+            guard_tokens.clear();
             boolean condition = turn.equals(Players.BLACK) ? isKingSafeIn(white_king, Players.WHITE) : isKingSafeIn(black_king, Players.BLACK);
             if (turn.equals(Players.WHITE) && !condition) {
                 board[black_king.y][black_king.x].setSelected(true, Colors.RED);
-
             } else if (turn.equals(Players.BLACK) && !condition) {
                 board[white_king.y][white_king.x].setSelected(true, Colors.RED);
             }
@@ -549,13 +554,11 @@ public class Game extends Display implements Movements {
                 case DOWN_LEFT -> check_move_down_left(testPoint, players);
                 case DOWN_RIGHT -> check_move_down_right(testPoint, players);
             };
-            System.out.println(path);
             if (path.isDanger() && path.guardPoint() == null) {
                 path_to_check = path.points();
-                System.out.println(path_to_check);
-                System.exit(-1);
+                isKingChecked=true;
                 return false;
-            } else if (path.guardPoint() != null) {
+            } else if (path.isDanger()) {
                 guard_tokens.add(path.guardPoint());
             }
         }

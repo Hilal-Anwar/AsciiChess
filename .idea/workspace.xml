@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="Added Point and Directions">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/ai/KingsMovement.java" afterDir="false" />
+    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="Added Point ,Path and Directions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/MovementRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/MovementRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Movements.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Movements.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Path.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Path.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Point.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673836611718</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added Point ,Path and Directions">
+      <created>1675983064066</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1675983064066</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -206,7 +208,8 @@
     <MESSAGE value="EnPassant Implemented(all bug fixed)" />
     <MESSAGE value="MVC implemented" />
     <MESSAGE value="Added Point and Directions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Point and Directions" />
+    <MESSAGE value="Added Point ,Path and Directions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Point ,Path and Directions" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
