@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="Added Point ,Path and Directions">
+    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="EnPassent bug fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/Game.java" afterDir="false" />
     </list>
@@ -186,7 +186,21 @@
       <option name="project" value="LOCAL" />
       <updated>1675983064066</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Added Point ,Path and Directions">
+      <created>1676081019522</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1676081019522</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Checking of king implemented.Best moves for the king with guard point implemented">
+      <created>1676239563017</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1676239563017</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -209,7 +223,9 @@
     <MESSAGE value="MVC implemented" />
     <MESSAGE value="Added Point and Directions" />
     <MESSAGE value="Added Point ,Path and Directions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Point ,Path and Directions" />
+    <MESSAGE value="Checking of king implemented.Best moves for the king with guard point implemented" />
+    <MESSAGE value="EnPassent bug fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="EnPassent bug fixed" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

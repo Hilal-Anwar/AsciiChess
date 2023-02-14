@@ -139,56 +139,59 @@ public class Game extends Display implements Movements {
                     int _y = selected_box.y;
                     if (y == 0 && board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
                             board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN))
-                        move_the_piece_to(x, y, new ChessBox(new ChessToken(ChessPieceType.QUEEN,
+                        move_the_piece_to(x, y, _x, _y, new ChessBox(new ChessToken(ChessPieceType.QUEEN,
                                 Colors.CYAN_BRIGHT, Players.WHITE), false));
                     else if (y == 7 && board[_y][_x].getChessToken().getPiece().equals(Players.BLACK) &&
                             board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN))
-                        move_the_piece_to(x, y, new ChessBox(new ChessToken(ChessPieceType.QUEEN,
+                        move_the_piece_to(x, y, _x, _y, new ChessBox(new ChessToken(ChessPieceType.QUEEN,
                                 Colors.MAGENTA, Players.BLACK), false));
-                    else if (isEnPassant(y, 3, _y, _x, x, y)) {
+                    else if (isEnPassant(y, _y, _x, x, y) && turn.equals(Players.BLACK)) {
                         enPassant = new Point(x, y - 1);
-                        move_the_piece_to(x, y, board[_y][_x]);
-                    } else if (isEnPassant(y, 4, _y, _x, x, y)) {
+                        move_the_piece_to(x, y, _x, _y, board[_y][_x]);
+                    } else if (isEnPassant(y, _y, _x, x, y) && turn.equals(Players.WHITE)) {
                         enPassant = new Point(x, y + 1);
-                        move_the_piece_to(x, y, board[_y][_x]);
+                        move_the_piece_to(x, y, _x, _y, board[_y][_x]);
                     } else if (((castling.size() > 0 && castling.get(0).x == x && castling.get(0).y == y) ||
                             (castling.size() > 1 && castling.get(1).x == x && castling.get(1).y == y))) {
                         var pi = board[_y][_x].getChessToken().getPiece();
                         if (pi.equals(Players.BLACK) && isCastlingValid_Black) {
-                            move_the_piece_to(x, y, board[_y][_x]);
+                            move_the_piece_to(x, y, _x, _y, board[_y][_x]);
                             if (x < _x) {
-                                move_the_piece_to(x + 1, y, board[0][0]);
-                                move_the_piece_to(0, 0, new ChessBox(null, false));
+                                move_the_piece_to(x + 1, y, _x, _y, board[0][0]);
+                                move_the_piece_to(0, 0, _x, _y, new ChessBox(null, false));
                             } else if (x > _x) {
-                                move_the_piece_to(x - 1, y, board[0][7]);
-                                move_the_piece_to(7, 0, new ChessBox(null, false));
+                                move_the_piece_to(x - 1, y, _x, _y, board[0][7]);
+                                move_the_piece_to(7, 0, _x, _y, new ChessBox(null, false));
                             }
                             isCastlingValid_Black = false;
                             castling = new ArrayList<>();
                         } else if (pi.equals(Players.WHITE) && isCastlingValid_White) {
-                            move_the_piece_to(x, y, board[_y][_x]);
+                            move_the_piece_to(x, y, _x, _y, board[_y][_x]);
                             if (x < _x) {
-                                move_the_piece_to(x, y, board[7][0]);
-                                move_the_piece_to(0, 7, new ChessBox(null, false));
+                                move_the_piece_to(x, y, _x, _y, board[7][0]);
+                                move_the_piece_to(0, 7, _x, _y, new ChessBox(null, false));
                             } else if (x > _x) {
-                                move_the_piece_to(x - 1, y, board[7][7]);
-                                move_the_piece_to(7, 7, new ChessBox(null, false));
+                                move_the_piece_to(x - 1, y, _x, _y, board[7][7]);
+                                move_the_piece_to(7, 7, _x, _y, new ChessBox(null, false));
                             }
                             isCastlingValid_White = false;
                             castling = new ArrayList<>();
                         }
-                    } else if (enPassant != null && enPassant.x == x && enPassant.y == y) {
-                        move_the_piece_to(enPassant.x, enPassant.y, board[_y][_x]);
+                    } else if (enPassant != null && enPassant.x == x && enPassant.y == y && enPassant.x != _x
+                            && board[_y][_x - 1].getChessToken() != null &&
+                            board[_y][_x - 1].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN)) {
+                        var m=board[_y][_x];
                         if (board[_y][_x].getChessToken().getPiece().equals(Players.WHITE))
-                            move_the_piece_to(_x - 1, _y, new ChessBox(null, false));
+                            move_the_piece_to(_x - 1, _y, _x, _y, new ChessBox(null, false));
                         else if (board[_y][_x].getChessToken().getPiece().equals(Players.BLACK)) {
-                            move_the_piece_to(_x + 1, _y, new ChessBox(null, false));
+                            move_the_piece_to(_x + 1, _y, _x, _y, new ChessBox(null, false));
                         }
+                        move_the_piece_to(enPassant.x, enPassant.y, _x, _y, m);
                         enPassant = null;
 
                     } else
-                        move_the_piece_to(x, y, board[_y][_x]);
-                    move_the_piece_to(_x, _y, new ChessBox(null, false));
+                        move_the_piece_to(x, y, _x, _y, board[_y][_x]);
+                    //move_the_piece_to(_x, _y, new ChessBox(null, false));
                     turn = turn.equals(Players.WHITE) ? Players.BLACK : Players.WHITE;
                 }
                 board[selected_box.y][selected_box.x].setSelected(false, Colors.WHITE);
@@ -229,22 +232,22 @@ public class Game extends Display implements Movements {
         };
     }
 
-    private boolean isEnPassant(int m, int n, int _y, int _x, int x, int y) {
+    private boolean isEnPassant(int m, int _y, int _x, int x, int y) {
         Players co = board[_y][_x].getChessToken().getPiece();
-        if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
+        if (m == 3 && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
                 board[_y][_x].getChessToken().getPiece().equals(Players.BLACK) &&
                 board[y][x - 1].getChessToken() != null && !board[y][x - 1].getChessToken().getPiece().equals(co)) {
             return true;
 
-        } else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
+        } else if (m == 3 && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
                 board[_y][_x].getChessToken().getPiece().equals(Players.BLACK) &&
                 board[y][x + 1].getChessToken() != null && !board[y][x + 1].getChessToken().getPiece().equals(co)) {
             return true;
-        } else if (m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
+        } else if (m == 4 && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
                 board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
                 board[y][x + 1].getChessToken() != null && !board[y][x + 1].getChessToken().getPiece().equals(co))
             return true;
-        else return m == n && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 7 &&
+        else return m == 4 && board[_y][_x].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN) && x != 0 &&
                     board[_y][_x].getChessToken().getPiece().equals(Players.WHITE) &&
                     board[y][x - 1].getChessToken() != null && !board[y][x - 1].getChessToken().getPiece().equals(co);
     }
@@ -260,7 +263,7 @@ public class Game extends Display implements Movements {
             if (ints.equals(z))
                 return true;
         }
-        return (z.equals(enPassant));
+        return (z.equals(enPassant)) && enPassant.x != selected_box.x;
     }
 
     @Override
@@ -493,7 +496,13 @@ public class Game extends Display implements Movements {
                     }
                 }
             }
-            if (enPassant != null && (y == 3 || y == 4)) {
+            if (enPassant != null && y == 3 && turn.equals(Players.WHITE)
+                    && x != 7 && x != 0 && board[y][x].getChessToken() != null && board[y][x].getChessToken().
+                    getChessPieceType().equals(ChessPieceType.PAWN)) {
+                board[enPassant.y][enPassant.x].setSelected(true, Colors.ORANGE);
+            }
+            if (enPassant != null && y == 4 && turn.equals(Players.BLACK) && x != 7 && x != 0 && board[y][x].getChessToken() != null && board[y][x].getChessToken().
+                    getChessPieceType().equals(ChessPieceType.PAWN)) {
                 board[enPassant.y][enPassant.x].setSelected(true, Colors.ORANGE);
             }
 
@@ -501,7 +510,7 @@ public class Game extends Display implements Movements {
         return list;
     }
 
-    private void move_the_piece_to(int x, int y, ChessBox chessBox) {
+    private void move_the_piece_to(int x, int y, int _x, int _y, ChessBox chessBox) {
         chessBox.setSelected(false, Colors.WHITE);
         if (chessBox.getChessToken() != null && chessBox.getChessToken().
                 getChessPieceType().equals(ChessPieceType.KING)) {
@@ -514,14 +523,16 @@ public class Game extends Display implements Movements {
             }
         }
         board[y][x] = chessBox;
+        board[_y][_x] = new ChessBox(null, false);
         dSelect(possible_position);
         if (chessBox.getChessToken() != null) {
             guard_tokens.clear();
+            System.out.println("Guard token is made clear");
             board[black_king.y][black_king.x].setSelected(false, Colors.WHITE);
             board[white_king.y][white_king.x].setSelected(true, Colors.WHITE);
             path_to_check.clear();
             isKingChecked = false;
-            dangerPoint=null;
+            dangerPoint = null;
             boolean condition = turn.equals(Players.BLACK) ? isKingSafeIn(white_king, Players.WHITE) :
                     isKingSafeIn(black_king, Players.BLACK);
             if (turn.equals(Players.WHITE) && !condition) {
@@ -529,6 +540,7 @@ public class Game extends Display implements Movements {
             } else if (turn.equals(Players.BLACK) && !condition) {
                 board[white_king.y][white_king.x].setSelected(true, Colors.RED);
             }
+            System.out.println("Guard token is = " + guard_tokens);
         }
     }
 
@@ -542,7 +554,7 @@ public class Game extends Display implements Movements {
         for (var p : path) {
             if (board[p.y][p.x].getChessToken() != null &&
                     board[p.y][p.x].getChessToken().getChessPieceType().equals(ChessPieceType.KNIGHT)) {
-                dangerPoint = new Point(p.x,p.y);
+                dangerPoint = new Point(p.x, p.y);
                 return false;
             }
         }
@@ -563,6 +575,7 @@ public class Game extends Display implements Movements {
                 case DOWN_LEFT -> check_move_down_left(testPoint, players);
                 case DOWN_RIGHT -> check_move_down_right(testPoint, players);
             };
+            System.out.println(path);
             if (path.isDanger() && !king.equals(testPoint)) {
                 return false;
             } else if (path.isDanger() && path.guardPoint() == null) {
@@ -609,11 +622,10 @@ public class Game extends Display implements Movements {
         while (isInSideBoard(x, y)) {
             y = y - 1;
             if (isValidPointFilledPosition(x, y, players)) {
-                if (isQueenOrRook(x, y, players)){
-                    dangerPoint=new Point(x,y);
+                if (isQueenOrRook(x, y, players)) {
+                    dangerPoint = new Point(x, y);
                     return new Path(true, guardPoint, points);
-                }
-                else {
+                } else {
                     return new Path(false, guardPoint, points);
                 }
             } else if (isValidPoint(x, y, players)) {
@@ -638,10 +650,9 @@ public class Game extends Display implements Movements {
             y = y + 1;
             if (isValidPointFilledPosition(x, y, players)) {
                 if (isQueenOrRook(x, y, players)) {
-                    dangerPoint=new Point(x,y);
+                    dangerPoint = new Point(x, y);
                     return new Path(true, guardPoint, points);
-                }
-                else {
+                } else {
                     return new Path(false, guardPoint, points);
                 }
             } else if (isValidPoint(x, y, players)) {
@@ -665,11 +676,10 @@ public class Game extends Display implements Movements {
         while (isInSideBoard(x, y)) {
             x = x + 1;
             if (isValidPointFilledPosition(x, y, players)) {
-                if (isQueenOrRook(x, y, players)){
-                    dangerPoint=new Point(x,y);
+                if (isQueenOrRook(x, y, players)) {
+                    dangerPoint = new Point(x, y);
                     return new Path(true, guardPoint, points);
-                }
-                else {
+                } else {
                     return new Path(false, guardPoint, points);
                 }
             } else if (isValidPoint(x, y, players)) {
@@ -694,10 +704,9 @@ public class Game extends Display implements Movements {
             x = x - 1;
             if (isValidPointFilledPosition(x, y, players)) {
                 if (isQueenOrRook(x, y, players)) {
-                    dangerPoint=new Point(x,y);
+                    dangerPoint = new Point(x, y);
                     return new Path(true, guardPoint, points);
-                }
-                else {
+                } else {
                     return new Path(false, guardPoint, points);
                 }
             } else if (isValidPoint(x, y, players)) {
@@ -722,11 +731,10 @@ public class Game extends Display implements Movements {
             x = x + 1;
             y = y - 1;
             if (isValidPointFilledPosition(x, y, players)) {
-                if (isPawnOrBishopOrQueen(point.x, point.y, x, y, players)){
-                    dangerPoint=new Point(x,y);
+                if (isPawnOrBishopOrQueen(point.x, point.y, x, y, players)) {
+                    dangerPoint = new Point(x, y);
                     return new Path(true, guardPoint, points);
-                }
-                else {
+                } else {
                     return new Path(false, guardPoint, points);
                 }
             } else if (isValidPoint(x, y, players)) {
@@ -751,11 +759,10 @@ public class Game extends Display implements Movements {
             x = x - 1;
             y = y - 1;
             if (isValidPointFilledPosition(x, y, players)) {
-                if (isPawnOrBishopOrQueen(point.x, point.y, x, y, players)){
-                    dangerPoint=new Point(x,y);
+                if (isPawnOrBishopOrQueen(point.x, point.y, x, y, players)) {
+                    dangerPoint = new Point(x, y);
                     return new Path(true, guardPoint, points);
-                }
-                else {
+                } else {
                     return new Path(false, guardPoint, points);
                 }
             } else if (isValidPoint(x, y, players)) {
@@ -780,11 +787,10 @@ public class Game extends Display implements Movements {
             x = x + 1;
             y = y + 1;
             if (isValidPointFilledPosition(x, y, players)) {
-                if (isPawnOrBishopOrQueen(point.x, point.y, x, y, players)){
-                    dangerPoint=new Point(x,y);
+                if (isPawnOrBishopOrQueen(point.x, point.y, x, y, players)) {
+                    dangerPoint = new Point(x, y);
                     return new Path(true, guardPoint, points);
-                }
-                else {
+                } else {
                     return new Path(false, guardPoint, points);
                 }
             } else if (isValidPoint(x, y, players)) {
@@ -809,11 +815,10 @@ public class Game extends Display implements Movements {
             x = x - 1;
             y = y + 1;
             if (isValidPointFilledPosition(x, y, players)) {
-                if (isPawnOrBishopOrQueen(point.x, point.y, x, y, players)){
-                    dangerPoint=new Point(x,y);
+                if (isPawnOrBishopOrQueen(point.x, point.y, x, y, players)) {
+                    dangerPoint = new Point(x, y);
                     return new Path(true, guardPoint, points);
-                }
-                else {
+                } else {
                     return new Path(false, guardPoint, points);
                 }
             } else if (isValidPoint(x, y, players)) {
