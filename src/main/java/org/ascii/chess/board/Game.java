@@ -120,8 +120,9 @@ public class Game extends Display implements Movements {
                 var chess_piece_type = chess_box.getChessToken().getChessPieceType();
                 getPossiblePosition(x, y, chess_box, chess_piece_type);
                 if (possible_position.size() != 0) {
-                    if (isKingChecked)
+                    if (isKingChecked) {
                         possible_position = intersection(possible_position, path_to_check);
+                    }
                     for (var sl : possible_position) {
                         board[sl.y][sl.x].
                                 setSelected(true, board[sl.y][sl.x].getChessToken() != null ?
@@ -178,9 +179,11 @@ public class Game extends Display implements Movements {
                             castling = new ArrayList<>();
                         }
                     } else if (enPassant != null && enPassant.x == x && enPassant.y == y && enPassant.x != _x
-                            && board[_y][_x - 1].getChessToken() != null &&
-                            board[_y][_x - 1].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN)) {
-                        var m=board[_y][_x];
+                            && ((board[_y][_x - 1].getChessToken() != null &&
+                            board[_y][_x - 1].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN)) ||
+                            (board[_y][_x + 1].getChessToken() != null &&
+                                    board[_y][_x + 1].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN)))) {
+                        var m = board[_y][_x];
                         if (board[_y][_x].getChessToken().getPiece().equals(Players.WHITE))
                             move_the_piece_to(_x - 1, _y, _x, _y, new ChessBox(null, false));
                         else if (board[_y][_x].getChessToken().getPiece().equals(Players.BLACK)) {
@@ -501,7 +504,8 @@ public class Game extends Display implements Movements {
                     getChessPieceType().equals(ChessPieceType.PAWN)) {
                 board[enPassant.y][enPassant.x].setSelected(true, Colors.ORANGE);
             }
-            if (enPassant != null && y == 4 && turn.equals(Players.BLACK) && x != 7 && x != 0 && board[y][x].getChessToken() != null && board[y][x].getChessToken().
+            if (enPassant != null && y == 4 && turn.equals(Players.BLACK) && x != 7 && x != 0 &&
+                    board[y][x].getChessToken() != null && board[y][x].getChessToken().
                     getChessPieceType().equals(ChessPieceType.PAWN)) {
                 board[enPassant.y][enPassant.x].setSelected(true, Colors.ORANGE);
             }
@@ -553,7 +557,9 @@ public class Game extends Display implements Movements {
         var path = knight_movement(point.x, point.y, players);
         for (var p : path) {
             if (board[p.y][p.x].getChessToken() != null &&
-                    board[p.y][p.x].getChessToken().getChessPieceType().equals(ChessPieceType.KNIGHT)) {
+                    board[p.y][p.x].getChessToken().
+                            getChessPieceType().
+                            equals(ChessPieceType.KNIGHT)) {
                 dangerPoint = new Point(p.x, p.y);
                 return false;
             }
@@ -575,7 +581,7 @@ public class Game extends Display implements Movements {
                 case DOWN_LEFT -> check_move_down_left(testPoint, players);
                 case DOWN_RIGHT -> check_move_down_right(testPoint, players);
             };
-            System.out.println(path);
+            System.out.println(direction + "  " + path);
             if (path.isDanger() && !king.equals(testPoint)) {
                 return false;
             } else if (path.isDanger() && path.guardPoint() == null) {
@@ -834,19 +840,32 @@ public class Game extends Display implements Movements {
         return new Path(false, guardPoint, points);
     }
 
+    private void filter_with_danger_piece(ArrayList<Point> list) {
+        if (list.contains(dangerPoint)) {
+            list.removeIf(t -> !t.equals(dangerPoint));
+        }
+    }
+
     private ArrayList<Point> intersection(ArrayList<Point> list1, ArrayList<Point> list2) {
-        int size = Math.min(list1.size(), list2.size());
-        var list = new ArrayList<Point>();
-        if (isKingChecked) {
-            for (int i = 0; i < size; i++) {
-                if (list2.contains(list1.get(i)))
-                    list.add(list1.get(i));
-                else if (list1.contains(dangerPoint))
-                    list.add(dangerPoint);
+        if (!list2.isEmpty()) {
+            int size = Math.min(list1.size(), list2.size());
+            var list = new ArrayList<Point>();
+            if (isKingChecked) {
+                for (int i = 0; i < size; i++) {
+                    if (list2.contains(list1.get(i)))
+                        list.add(list1.get(i));
+                    else if (list1.contains(dangerPoint))
+                        list.add(dangerPoint);
+                }
+                return list;
             }
             return list;
+        } else {
+            if (list1.contains(dangerPoint)) {
+                list1.removeIf(t -> !t.equals(dangerPoint));
+            }
         }
-        return list;
+        return list1;
     }
 
 }
