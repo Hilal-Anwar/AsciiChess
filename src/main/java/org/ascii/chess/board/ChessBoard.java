@@ -25,7 +25,7 @@ public class ChessBoard extends Cursor {
         super(cursor.getColumn(), cursor.getRow(), cursor.getColors());
     }
 
-    public void draw(String message) {
+    public void draw(String message,int width) {
         String[] a = {"╤", "═══", "╔", "╗"};
         String[] b = {"│", "   ", "║",};
         String[] c = {"┼", "───", "╟", "╢"};
@@ -70,7 +70,9 @@ public class ChessBoard extends Cursor {
             chess.append("\n");
 
         }
-        System.out.println(chess.append('\n').append(message));
+        int col=width/2-(15*3)/2;
+        System.out.println(chess.append('\n').
+                append(message).toString().indent(col));
     }
 
     private String getText(int i, int j, String text) {

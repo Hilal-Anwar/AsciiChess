@@ -6,7 +6,7 @@ import org.jline.terminal.TerminalBuilder;
 import java.io.IOException;
 
 public class Display {
-    Terminal terminal;
+    public Terminal terminal;
     protected Display(){
         try {
             terminal = TerminalBuilder.terminal();

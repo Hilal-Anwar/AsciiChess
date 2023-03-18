@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="EnPassent bug fixed">
+    <list default="true" id="1a4e94fe-6fc3-4afe-aa5c-fcfd84e0bdd5" name="Changes" comment="EnPassent bug for black piece is fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/ChessBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/ChessBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/board/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Display.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/ascii/chess/util/Display.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,17 +50,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "full.screen.before.presentation.mode": "false",
-    "last_opened_file_path": "C:/Users/hilal/Chess",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/hilal/Chess&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\hilal\IdeaProjects\AsciiChess\src\main\java\org\ascii\chess" />
@@ -207,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676402175438</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="EnPassent bug for black piece is fixed">
+      <created>1679088147434</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1679088147434</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -232,7 +242,8 @@
     <MESSAGE value="Added Point ,Path and Directions" />
     <MESSAGE value="Checking of king implemented.Best moves for the king with guard point implemented" />
     <MESSAGE value="EnPassent bug fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="EnPassent bug fixed" />
+    <MESSAGE value="EnPassent bug for black piece is fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="EnPassent bug for black piece is fixed" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

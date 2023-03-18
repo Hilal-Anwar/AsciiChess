@@ -89,8 +89,9 @@ public class Game extends Display implements Movements {
 
     public void start() throws InterruptedException {
         KeyBoardInput keyBoardInput = new KeyBoardInput(this);
+
         clear_display();
-        chessBoard.draw(message);
+        chessBoard.draw(message, terminal.getWidth());
         while (true) {
             var key = keyBoardInput.getKeyBoardKey();
             switch (key) {
@@ -103,7 +104,7 @@ public class Game extends Display implements Movements {
             }
             if (!key.equals(Key.NONE)) {
                 clear_display();
-                chessBoard.draw(message);
+                chessBoard.draw(message, terminal.getWidth());
             }
             keyBoardInput.setKeyBoardKey(Key.NONE);
             Thread.sleep(30);
@@ -184,11 +185,13 @@ public class Game extends Display implements Movements {
                             (board[_y][_x + 1].getChessToken() != null &&
                                     board[_y][_x + 1].getChessToken().getChessPieceType().equals(ChessPieceType.PAWN)))) {
                         var m = board[_y][_x];
-                        if (board[_y][_x].getChessToken().getPiece().equals(Players.WHITE))
+                        //if (board[_y][_x].getChessToken().getPiece().equals(Players.WHITE))
+                        if (enPassant.x < _x)
                             move_the_piece_to(_x - 1, _y, _x, _y, new ChessBox(null, false));
-                        else if (board[_y][_x].getChessToken().getPiece().equals(Players.BLACK)) {
+                            //else if (board[_y][_x].getChessToken().getPiece().equals(Players.BLACK)) {
+                        else if (enPassant.x > _x)
                             move_the_piece_to(_x + 1, _y, _x, _y, new ChessBox(null, false));
-                        }
+                        //}
                         move_the_piece_to(enPassant.x, enPassant.y, _x, _y, m);
                         enPassant = null;
 
