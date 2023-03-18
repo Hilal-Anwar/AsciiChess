@@ -2,7 +2,8 @@
 
 Ascii chess game using java
 
-![WindowsTerminal_ZLMF5UFUd7](https://user-images.githubusercontent.com/50636048/226129620-d0ae1c78-7da3-4245-8298-fa7f95c82718.png)
+![brave_jMYj6JlcQl](https://user-images.githubusercontent.com/50636048/226130464-f6a0348f-e89c-4033-8be2-1ae4cb096e4a.png)
+
 
 ![WindowsTerminal_K3zCjU6Qe1](https://user-images.githubusercontent.com/50636048/226129537-7f163216-235a-43b6-966b-4aa7b80b7bea.png)
 
