@@ -1,8 +1,9 @@
 # AsciiChess
 
+Ascii chess game using java
+
 ![WindowsTerminal_ZLMF5UFUd7](https://user-images.githubusercontent.com/50636048/226129620-d0ae1c78-7da3-4245-8298-fa7f95c82718.png)
 
-Ascii chess game using java
 ![WindowsTerminal_K3zCjU6Qe1](https://user-images.githubusercontent.com/50636048/226129537-7f163216-235a-43b6-966b-4aa7b80b7bea.png)
 
 ![WindowsTerminal_lDSkSSoZcd](https://user-images.githubusercontent.com/50636048/226129549-d113c58c-7bff-4ff7-971d-388edee4e1e9.png)
