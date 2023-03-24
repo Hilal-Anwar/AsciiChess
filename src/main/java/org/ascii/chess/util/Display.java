@@ -1,5 +1,6 @@
 package org.ascii.chess.util;
 
+import org.jline.terminal.Attributes;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
