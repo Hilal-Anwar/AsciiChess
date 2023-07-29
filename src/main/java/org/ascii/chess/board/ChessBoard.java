@@ -25,7 +25,7 @@ public class ChessBoard extends Cursor {
         super(cursor.getColumn(), cursor.getRow(), cursor.getColors());
     }
 
-    public void draw(String message,int width) {
+    public void draw(String message, int width, int height) {
         String[] a = {"╤", "═══", "╔", "╗"};
         String[] b = {"│", "   ", "║",};
         String[] c = {"┼", "───", "╟", "╢"};
@@ -57,7 +57,7 @@ public class ChessBoard extends Cursor {
                             chess.append(getText(i, j, b[j % 2]));
                         }
                         if (j % 2 == 0)
-                            b[1] = b[1].equals("   ") ? " ░ " : "   ";
+                            b[1] = "   ";
                     }
                 } else {
                     if (j == 0)
@@ -70,19 +70,19 @@ public class ChessBoard extends Cursor {
             chess.append("\n");
 
         }
-        int col=width/2-(15*3)/2;
-        System.out.println(chess.append('\n').
-                append(message).toString().indent(col));
+        int col = width / 2 - (12 * 3) / 2;
+        int he = height / 2 - 8;
+        System.out.println(("\n".repeat(he) + chess +
+                message).indent(col));
     }
 
     private String getText(int i, int j, String text) {
-        var z=isSelectedBox(i, j);
+        var z = isSelectedBox(i, j);
         if (isCursorPoint(i, j))
             return Text.getColorText(text, getColors());
         else if (z.condition()) {
             return Text.getColorText(text, chessBoard[z.y][z.x].getColors());
-        }
-        else return text;
+        } else return text;
     }
 
     private Val isSelectedBox(int i, int j) {

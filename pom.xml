@@ -32,8 +32,7 @@
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <!-- Build an executable JAR -->
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
@@ -41,16 +40,15 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <!-- here we specify that we want to use the main method within the App class -->
                             <mainClass>${main.class}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>
+            </plugin>!-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.4.2</version>
+                <version>3.6.0</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -62,7 +60,7 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
@@ -70,7 +68,7 @@
                     <source>19</source>
                     <target>19</target>
                 </configuration>
-            </plugin>
+            </plugin>!-->
         </plugins>
     </build>
 </project>

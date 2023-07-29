@@ -5,6 +5,7 @@ import org.ascii.chess.pieces.ChessToken;
 import java.util.ArrayList;
 
 public interface Movements {
+
     ArrayList<Point> rook_movement(int x, int y, Players color);
 
     ArrayList<Point> bishop_movement(int x, int y, Players color);
