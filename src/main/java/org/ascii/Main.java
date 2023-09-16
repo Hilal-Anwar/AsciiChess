@@ -39,7 +39,8 @@ public class  Main {
             int w2=terminal.getSize().getColumns()/2-20;
             int h=terminal.getSize().getRows()/2;
             while (s.length() <= 40) {
-                terminal.puts(InfoCmp.Capability.clear_screen);
+                //terminal.puts(InfoCmp.Capability.clear_screen);
+                System.out.println("\u001b[H");
                 System.out.println("\n".repeat(h-12));
                 System.out.println(TITLE1.indent(w1));
                 System.out.println(TITLE2.indent(w2));
@@ -47,6 +48,7 @@ public class  Main {
                 System.out.println(s.toString().indent(w2));
                 Thread.sleep(16);
             }
+            terminal.puts(InfoCmp.Capability.clear_screen);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -4,10 +4,7 @@ import org.ascii.chess.pieces.ChessPieceType;
 import org.ascii.chess.pieces.ChessToken;
 import org.ascii.chess.util.*;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Game extends Display implements Movements {
@@ -38,7 +35,7 @@ public class Game extends Display implements Movements {
     private Point enPassant;
     private final ArrayDeque<MovementRecord> memory = new ArrayDeque<>();
     private final ArrayDeque<Point> enPassant_memory = new ArrayDeque<>();
-    private ArrayList<Point> castling = new ArrayList<>(2);
+    private ArrayList<Point> castling = new ArrayList<>();
 
     private void init() {
         Colors c_w = Colors.CYAN_BRIGHT;
@@ -142,7 +139,7 @@ public class Game extends Display implements Movements {
         int i_x = move.initialX();
         int i_y = move.initialY();
         var piece = board[f_y][f_x];
-        isKingChecked=false;
+        isKingChecked = false;
         board[i_y][i_x] = piece;
         board[f_y][f_x] = new ChessBox(move.previous_token(), false);
         turn = move.turn();
@@ -157,14 +154,14 @@ public class Game extends Display implements Movements {
             if (chess_box.getChessToken() != null && selected_box == null) {
                 var chess_piece_type = chess_box.getChessToken().getChessPieceType();
                 getPossiblePosition(x, y, chess_box, chess_piece_type);
-                if (possible_position.size() != 0) {
+                if (!possible_position.isEmpty()) {
                     if (isKingChecked) {
                         possible_position = intersection(possible_position, path_to_check, chess_piece_type);
                         if (possible_position.isEmpty() && chess_piece_type.equals(ChessPieceType.KING)) {
-                            System.out.println("Game over");
-                            System.out.println(turn.equals(Players.BLACK) ? "Player white is winner" :
+                            //System.out.println("Game over");
+                            /*System.out.println(turn.equals(Players.BLACK) ? "Player white is winner" :
                                     "Player black is winner");
-                            System.exit(-1);
+                            System.exit(-1);*/
                         }
                     }
                     for (var sl : possible_position) {
@@ -196,7 +193,7 @@ public class Game extends Display implements Movements {
                     } else if (isEnPassant(y, _y, _x, x, y) && turn.equals(Players.WHITE)) {
                         enPassant = new Point(x, y + 1);
                         move_the_piece_to(x, y, _x, _y, board[_y][_x]);
-                    } else if (((castling.size() > 0 && castling.get(0).x == x && castling.get(0).y == y) ||
+                    } else if (((!castling.isEmpty() && castling.get(0).x == x && castling.get(0).y == y) ||
                             (castling.size() > 1 && castling.get(1).x == x && castling.get(1).y == y))) {
                         var pi = board[_y][_x].getChessToken().getPiece();
                         if (pi.equals(Players.BLACK) && isCastlingValid_Black) {
@@ -954,7 +951,9 @@ public class Game extends Display implements Movements {
         }
         return new Path(false, guardPoint, points);
     }
-
+    private boolean isGameOver(){
+        return false;
+    }
     private ArrayList<Point> intersection(ArrayList<Point> list1,
                                           ArrayList<Point> list2, ChessPieceType chessPieceType) {
         if (!list2.isEmpty()) {
@@ -966,6 +965,9 @@ public class Game extends Display implements Movements {
                         list.add(list1.get(i));
                     else if (list1.contains(dangerPoint))
                         list.add(dangerPoint);
+                    else if (chessPieceType.equals(ChessPieceType.KING)) {
+                        list.addAll(list1);
+                    }
                 }
                 return list;
             }

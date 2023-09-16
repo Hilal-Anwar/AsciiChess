@@ -3,6 +3,7 @@ package org.ascii.chess.util;
 import org.ascii.chess.pieces.ChessToken;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public interface Movements {
 

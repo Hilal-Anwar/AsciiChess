@@ -46,6 +46,8 @@ public class ChessToken {
     }
 
     public String getText() {
-        return " " + Text.getColorText(this.chessPieceType.getText(), color) + " ";
+        return " " +
+                Text.getColorText(this.chessPieceType.getText(),
+                        color) + " ";
     }
 }

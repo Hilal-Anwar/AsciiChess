@@ -5,8 +5,6 @@ import org.ascii.chess.util.Text;
 
 public class ChessBoard extends Cursor {
 
-    private final int WIDTH = 16;
-    private final int HEIGHT = 16;
     private final ChessBox[][] chessBoard = new ChessBox[8][8];
 
     public ChessBox[][] getChessBoard() {
@@ -14,11 +12,11 @@ public class ChessBoard extends Cursor {
     }
 
     public int getWidth() {
-        return WIDTH;
+        return 16;
     }
 
     public int getHeight() {
-        return HEIGHT;
+        return 16;
     }
 
     public ChessBoard(Cursor cursor) {

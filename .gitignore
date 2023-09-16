@@ -25,6 +25,9 @@ target/
 /nbproject/private/
 /nbbuild/
 /dist/
+/target/
+.idea/misc.xml
+.idea/workspace.xml
 /nbdist/
 /.nb-gradle/
 build/
