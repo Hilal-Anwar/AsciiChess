@@ -49,8 +49,8 @@ public class ChessBoard extends Cursor {
                     else {
                         if (j % 2 != 0 && chessBoard[i / 2][j / 2] != null &&
                                 chessBoard[i / 2][j / 2].getChessToken() != null) {
-                            chess.append(getText(i / 2, j / 2, chessBoard[i / 2][j / 2].
-                                    getChessToken().getText()));
+                            chess.append(getText(i / 2, j / 2,
+                                    chessBoard[i / 2][j / 2].getChessToken().getText()));
                         } else {
                             chess.append(getText(i, j, b[j % 2]));
                         }
